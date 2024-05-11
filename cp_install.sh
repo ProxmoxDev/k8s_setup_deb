@@ -1,6 +1,6 @@
 #!/bin/bash
 
-KUBE_API_SERVER_IP=`
+KUBE_API_SERVER_IP=
 REPO_KUBERNETES_VERSION=v1.29
 PACKAGE_KUBERNETES_VERSION=1.29.0-1.1
 PROJECT_PATH=prerelease:/main
@@ -59,7 +59,7 @@ networking:
   serviceSubnet: "192.168.100.0/24"
   podSubnet: "192.128.100.0/24"
 kubernetesVersion: "${PACKAGE_KUBERNETES_VERSION}"
-controlPlaneEndpoint: "${KUBE_API_SERVER_VIP}:6443"
+controlPlaneEndpoint: "${KUBE_API_SERVER_IP}:6443"
 EOF
 
 kubeadm init --config ~/init_kubeadm.yaml
@@ -84,7 +84,7 @@ nodeRegistration:
   criSocket: "unix:///var/run/crio/crio.sock"
 discovery:
   bootstrapToken:
-    apiServerEndpoint: "${KUBE_API_SERVER_VIP}:6443"
+    apiServerEndpoint: "${KUBE_API_SERVER_IP}:6443"
     token: "$KUBEADM_BOOTSTRAP_TOKEN"
     unsafeSkipCAVerification: true
 controlPlane:
@@ -99,7 +99,7 @@ nodeRegistration:
   criSocket: "unix:///var/run/crio/crio.sock"
 discovery:
   bootstrapToken:
-    apiServerEndpoint: "${KUBE_API_SERVER_VIP}:6443"
+    apiServerEndpoint: "${KUBE_API_SERVER_IP}:6443"
     token: "$KUBEADM_BOOTSTRAP_TOKEN"
     unsafeSkipCAVerification: true
 EOF
