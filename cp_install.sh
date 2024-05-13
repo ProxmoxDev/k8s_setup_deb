@@ -1,9 +1,10 @@
 #!/bin/bash
 
-KUBE_API_SERVER_IP=
+KUBE_API_SERVER_IP=192.168.100.
 REPO_KUBERNETES_VERSION=v1.29
 PACKAGE_KUBERNETES_VERSION=1.29.0-1.1
-PROJECT_PATH=prerelease:/main
+PACKAGE_CRIO_VERSION=1.29.0-1.1
+PROJECT_PATH=stable:/v1.29
 
 ## Kubernetes Repository
 curl -fsSL https://pkgs.k8s.io/core:/stable:/$REPO_KUBERNETES_VERSION/deb/Release.key |
@@ -25,7 +26,7 @@ apt install -y \
   kubelet=$PACKAGE_KUBERNETES_VERSION \
   kubeadm=$PACKAGE_KUBERNETES_VERSION \
   kubectl=$PACKAGE_KUBERNETES_VERSION \
-  cri-o
+  cri-o=$PACKAGE_CRIO_VERSION
 
 ## Start Service
 systemctl enable --now crio.service
