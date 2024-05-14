@@ -22,3 +22,4 @@ EOF
 
 chmod 600 /etc/netplan/99_static_ip_config.yaml
 netplan apply
+reboot
