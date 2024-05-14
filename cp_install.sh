@@ -1,10 +1,13 @@
 #!/bin/bash
 
 KUBE_API_SERVER_IP=192.168.100.
-REPO_KUBERNETES_VERSION=v1.29
+VERSION=v1.29
+MANIFEST_VERSION=1.29.0
+REPO_CRIO_PATH=stable:/${VERSION}
+REPO_KUBERNETES_VERSION=${VERSION}
 PACKAGE_KUBERNETES_VERSION=1.29.0-1.1
 PACKAGE_CRIO_VERSION=1.29.0-1.1
-PROJECT_PATH=stable:/v1.29
+
 
 ## Kubernetes Repository
 curl -fsSL https://pkgs.k8s.io/core:/stable:/$REPO_KUBERNETES_VERSION/deb/Release.key |
@@ -14,10 +17,10 @@ echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.
     tee /etc/apt/sources.list.d/kubernetes.list
 
 ## cri-o Repository
-curl -fsSL https://pkgs.k8s.io/addons:/cri-o:/$PROJECT_PATH/deb/Release.key |
+curl -fsSL https://pkgs.k8s.io/addons:/cri-o:/$REPO_CRIO_PATH/deb/Release.key |
     gpg --dearmor -o /etc/apt/keyrings/cri-o-apt-keyring.gpg
 
-echo "deb [signed-by=/etc/apt/keyrings/cri-o-apt-keyring.gpg] https://pkgs.k8s.io/addons:/cri-o:/$PROJECT_PATH/deb/ /" |
+echo "deb [signed-by=/etc/apt/keyrings/cri-o-apt-keyring.gpg] https://pkgs.k8s.io/addons:/cri-o:/$REPO_CRIO_PATH/deb/ /" |
     tee /etc/apt/sources.list.d/cri-o.list
 
 ## Install Kubernetes
@@ -59,7 +62,7 @@ kind: ClusterConfiguration
 networking:
   serviceSubnet: "192.168.100.0/24"
   podSubnet: "192.128.100.0/24"
-kubernetesVersion: "${PACKAGE_KUBERNETES_VERSION}"
+kubernetesVersion: "${MANIFEST_VERSION}"
 controlPlaneEndpoint: "${KUBE_API_SERVER_IP}:6443"
 EOF
 
