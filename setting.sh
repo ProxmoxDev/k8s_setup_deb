@@ -1,7 +1,7 @@
 #!/bin/bash
 
 cat <<EOF > /etc/netplan/00_static_ip_config.yaml
-#network:
+network:
   version: 2
   renderer: networkd
   ethernets:
